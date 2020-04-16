@@ -68,6 +68,38 @@ app.get("/getTags", (req, res) => {
   });
 
   client.connect((err, client) => {
+    // PAGING:
+
+    // const PAGES = 2500;
+    // const ENTRIES = 10;
+    // let No = 0;
+    // let totalDocs = 0;
+
+    // col.countDocuments({}, {}, async (err, res) => {
+    //   totalDocs = res;
+    // });
+    // setTimeout(() => {
+    //   for (let i = 0; i <= PAGES; i++) {
+    //     col
+    //       .find()
+    //       .skip(ENTRIES * i)
+    //       .limit(ENTRIES)
+    //       .toArray((err, docs) => {
+    //         if (err) throw err;
+    //         // res.json(docs)
+    //         No++;
+
+    //         try {
+    //           if (docs.length === 0 || docs === undefined || No > totalDocs)
+    //             return client.close();
+    //         } catch {
+    //           return client.close();
+    //         }
+    //       });
+    //   }
+    // }, 1000);
+
+    // PAGING END
     if (err) throw err;
     console.log("connected correctly");
     const db = client.db("backendassignment");
@@ -128,6 +160,38 @@ app.get("/getBookmarks", (req, res) => {
   });
 
   client.connect((err, client) => {
+    // PAGING:
+
+    // const PAGES = 2500;
+    // const ENTRIES = 10;
+    // let No = 0;
+    // let totalDocs = 0;
+
+    // col.countDocuments({}, {}, async (err, res) => {
+    //   totalDocs = res;
+    // });
+    // setTimeout(() => {
+    //   for (let i = 0; i <= PAGES; i++) {
+    //     col
+    //       .find()
+    //       .skip(ENTRIES * i)
+    //       .limit(ENTRIES)
+    //       .toArray((err, docs) => {
+    //         if (err) throw err;
+    //         // res.json(docs)
+    //         No++;
+
+    //         try {
+    //           if (docs.length === 0 || docs === undefined || No > totalDocs)
+    //             return client.close();
+    //         } catch {
+    //           return client.close();
+    //         }
+    //       });
+    //   }
+    // }, 1000);
+
+    // PAGING END
     if (err) throw err;
     console.log("connected correctly");
     const db = client.db("backendassignment");
