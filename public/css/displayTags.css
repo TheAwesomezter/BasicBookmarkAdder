@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+div {
+  background-color: lemonchiffon;
+  height: 30px;
+  width: 200px;
+  margin: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+div button {
+  position: absolute;
+  right: 0;
+  height: 28px;
+}
+/*# sourceMappingURL=displayTags.css.map */

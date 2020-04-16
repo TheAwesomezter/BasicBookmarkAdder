@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a Bookmark</title>
+  </head>
+  <body>
+    <div class="collection">
+      <h1>Create a Bookmark</h1>
+      <br />
+      <label for="link">Enter the link: </label>
+      <input type="text" name="link" id="link" required />
+
+      <br />
+
+      <label for="title">Enter the title: </label>
+      <input type="text" name="title" id="title" required />
+
+      <br />
+
+      <label for="publisher">Enter the publisher: </label>
+      <input type="text" name="publisher" id="publisher" required />
+
+      <br />
+
+      <label for="addtags">Select Tags: </label>
+      <div class="tagsDisplay"></div>
+
+      <button type="submit">Create!</button>
+    </div>
+
+    <script src="../js/createBookmarks.js"></script>
+  </body>
+</html>

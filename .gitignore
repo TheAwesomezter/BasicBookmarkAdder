@@ -1,0 +1,5 @@
+node_modules
+*.scss
+*.map
+package-lock.json
+.env
