@@ -190,6 +190,7 @@ app.post("/deleteBookmarks", (req, res) => {
 
 app.post("/deleteTagsFromBookmarks", (req, res) => {
   let { name, id } = req.body;
+  let timeUpdated = new Date().getTime();
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -204,7 +205,7 @@ app.post("/deleteTagsFromBookmarks", (req, res) => {
 
     col.findOneAndUpdate(
       { _id: new mongodb.ObjectID(id) },
-      { $pull: { tags: name } },
+      { $pull: { tags: name }, $set: { timeUpdated: timeUpdated } },
       (err, result) => {
         if (err) throw err;
 
@@ -218,6 +219,7 @@ app.post("/deleteTagsFromBookmarks", (req, res) => {
 
 app.post("/addTagToBookmarks", (req, res) => {
   let { id, newTag } = req.body;
+  let timeUpdated = new Date().getTime();
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -232,7 +234,7 @@ app.post("/addTagToBookmarks", (req, res) => {
 
     col.findOneAndUpdate(
       { _id: new mongodb.ObjectID(id) },
-      { $push: { tags: newTag } },
+      { $push: { tags: newTag }, $set: { timeUpdated: timeUpdated } },
       (err, result) => {
         if (err) throw err;
 
