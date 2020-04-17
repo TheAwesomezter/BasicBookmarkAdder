@@ -14,13 +14,13 @@ document.querySelector("button").addEventListener("click", async (e) => {
     alert("The tag name can't be empty!");
     return;
   }
-  
+
   let array = [];
 
   const response = await fetch("/getTags");
   let json = await response.json();
 
-  for (tag of json) {
+  for (let tag of json) {
     array.push(tag.name);
   }
 
