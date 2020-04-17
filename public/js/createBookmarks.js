@@ -1,7 +1,12 @@
-let array = [];
+let array = []; // array to store name of already existing bookmark links
+
+let tags;
+let link;
+let title;
+let publisher;
 
 window.onload = async () => {
-  let response = await fetch("/getTags");
+  let response = await fetch("/getTags"); // adding already added tags
   let tags = await response.json();
   console.log(tags);
 
@@ -33,35 +38,33 @@ async function getBookmarks() {
   }
 }
 
-async function addBookmark() {
-  let tags = document.querySelectorAll(".tags");
-  let link = document.getElementById("link").value;
-  let title = document.getElementById("title").value;
-  let publisher = document.getElementById("publisher").value;
-
-  if (!link) {
-    alert("The link needs to be entered!");
-    return;
-  }
-
-  if (!title) {
-    alert("The title needs to be entered!");
-    return;
-  }
-
-  if (!publisher) {
-    alert("The publisher needs to be entered!");
-    return;
+function checking() {
+  if (!link || !title || !publisher) {
+    alert("Fields marked with an asterisk can't be blank!");
+    return false;
   }
 
   if (array.includes(link)) {
     alert("No two links can be the same! Please renter another link!");
+    return false;
+  }
+
+  return true;
+}
+
+async function addBookmark() {
+  tags = document.querySelectorAll(".tags");
+  link = document.getElementById("link").value;
+  title = document.getElementById("title").value;
+  publisher = document.getElementById("publisher").value;
+
+  if (!checking()) {
     return;
   }
 
   let tagsArray = [];
   tags.forEach((ele) => {
-    if (ele.checked) tagsArray.push(ele.value);
+    if (ele.checked) tagsArray.push(ele.value); // adding all selected tags to an array for ease
   });
 
   let data = {
@@ -83,9 +86,8 @@ async function addBookmark() {
   const json = await response.json();
 
   if (json.status === "success") {
-    let message = document.createElement("div");
-    message.textContent = "Bookmark Created";
-    document.querySelector(".collection").prepend(message);
+    alert("bookmark created");
+    return;
   }
 }
 

@@ -19,10 +19,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/createABookmark", (req, res) => {
+  // api routes which are frequently travelled to
   res.redirect("./html/createBookmarks.html");
 });
 
 app.get("/createATag", (req, res) => {
+  // api routes which are frequently travelled to
   res.redirect("./html/createTags.html");
 });
 
@@ -54,7 +56,7 @@ app.post("/createTag", (req, res) => {
       if (err) throw err;
 
       console.log("inserted");
-      res.redirect("./html/createTags.html?status=success");
+      res.redirect("./html/createTags.html?status=success"); // will use the query part to make sure that a bookmark is created
       client.close();
       console.log("client closed");
     });
@@ -68,7 +70,7 @@ app.get("/getTags", (req, res) => {
   });
 
   client.connect((err, client) => {
-    // PAGING:
+    // PAGING: not implemented because not big enough dataset
 
     // const PAGES = 2500;
     // const ENTRIES = 10;
@@ -106,14 +108,14 @@ app.get("/getTags", (req, res) => {
     const col = db.collection("tags");
 
     col.find().toArray((err, docs) => {
-      res.json(docs);
+      res.json(docs); // sending the tags back to client
       client.close();
       console.log("client closed");
     });
   });
 });
 
-app.post("/createBookmark", (req, res) => {
+app.post("/createBookmark", (req, res) => { // route to create a bookmark
   let { link } = req.body;
   let { title } = req.body;
   let { publisher } = req.body;
@@ -150,6 +152,7 @@ app.post("/createBookmark", (req, res) => {
       console.log("client closed");
     });
   });
+
   res.json({ status: "success" });
 });
 
@@ -160,7 +163,7 @@ app.get("/getBookmarks", (req, res) => {
   });
 
   client.connect((err, client) => {
-    // PAGING:
+    // PAGING: not implemented because not big enough dataset
 
     // const PAGES = 2500;
     // const ENTRIES = 10;
@@ -199,7 +202,7 @@ app.get("/getBookmarks", (req, res) => {
 
     col.find().toArray((err, docs) => {
       if (err) throw err;
-      res.json(docs);
+      res.json(docs); // sending bookmarks back to the client
       client.close();
       console.log("client closed");
     });
@@ -219,7 +222,7 @@ app.post("/deleteTags", (req, res) => {
     const db = client.db("backendassignment");
     const col = db.collection("tags");
 
-    col.deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
+    col.deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => { // deletion based on id
       if (err) throw err;
 
       client.close();
@@ -242,7 +245,7 @@ app.post("/deleteBookmarks", (req, res) => {
     const db = client.db("backendassignment");
     const col = db.collection("bookmarks");
 
-    col.deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
+    col.deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => { // deletion based on id
       if (err) throw err;
 
       client.close();
@@ -269,7 +272,7 @@ app.post("/deleteTagsFromBookmarks", (req, res) => {
 
     col.findOneAndUpdate(
       { _id: new mongodb.ObjectID(id) },
-      { $pull: { tags: name }, $set: { timeUpdated: timeUpdated } },
+      { $pull: { tags: name }, $set: { timeUpdated: timeUpdated } }, // removing tag and setting updated time
       (err, result) => {
         if (err) throw err;
 
@@ -298,7 +301,7 @@ app.post("/addTagToBookmarks", (req, res) => {
 
     col.findOneAndUpdate(
       { _id: new mongodb.ObjectID(id) },
-      { $push: { tags: newTag }, $set: { timeUpdated: timeUpdated } },
+      { $push: { tags: newTag }, $set: { timeUpdated: timeUpdated } }, // adding tag and setting updated time
       (err, result) => {
         if (err) throw err;
 

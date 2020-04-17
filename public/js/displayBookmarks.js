@@ -1,15 +1,13 @@
-console.log("in display bookmarks");
-
 window.onload = async () => {
   const response = await fetch("/getBookmarks");
   const bookmarksData = await response.json();
 
-  let tableHeadings = Object.keys(bookmarksData[0]);
+  let tableHeadings = Object.keys(bookmarksData[0]); // table headings, like id, name, etc....
   let tableRows = createTRs(bookmarksData);
 
   let table = document.createElement("table");
   let tr = document.createElement("tr");
-  for (let tableHeading of tableHeadings) {
+  for (let tableHeading of tableHeadings) { // actually creating the tableheadings
     let th = document.createElement("th");
 
     th.appendChild(document.createTextNode(tableHeading));
@@ -17,16 +15,15 @@ window.onload = async () => {
   }
   table.appendChild(tr);
 
-  for (let i = 0; i < tableRows.length; i++) {
+  for (let i = 0; i < tableRows.length; i++) { // creating the content
     let tr = document.createElement("tr");
+    let link; // link for the title
 
     for (let j = 0; j < tableHeadings.length; j++) {
       let td = document.createElement("td");
-      let link;
 
-      if (j === 1) {
+      if (j === 1) { // specifying that the link column needs to lead to url when clicked
         let a = document.createElement("a");
-        // console.log(tableRows[j][i])
         let text = document.createTextNode(tableRows[i][j]);
         a.appendChild(text);
         a.href = tableRows[i][j];
@@ -34,16 +31,17 @@ window.onload = async () => {
         td.appendChild(a);
         tr.appendChild(td);
         continue;
-      } else if (j === 2) {
+      } else if (j === 2) { // specifying that the title column needs to lead to url when clicked
+        console.log(link)
         let a = document.createElement("a");
         let text = document.createTextNode(tableRows[i][j]);
 
         a.appendChild(text);
-        a.href = link;
+        a.href = link; // referring it to the url link
         td.appendChild(a);
         tr.appendChild(td);
         continue;
-      } else if (j === 6) {
+      } else if (j === 6) { // creating the 'x' for each tag
         for (let k = 0; k < tableRows[i][j].length; k++) {
           try {
             let text = document.createTextNode(tableRows[i][j][k]);
@@ -69,7 +67,7 @@ window.onload = async () => {
     }
     let button = document.createElement("button");
     button.textContent = "Remove Element";
-    button.setAttribute("id", tableRows[i][0]);
+    button.setAttribute("id", tableRows[i][0]); // setting id of button to id in DB for ease when deleting/updating
     button.setAttribute("class", "butt");
     tr.append(button);
 
@@ -83,22 +81,18 @@ window.onload = async () => {
 
   document.body.appendChild(table);
 
-  function createTRs(bookmarksData) {
+  function createTRs(bookmarksData) { // returns an array of each individual 'row', or one document (for NoSQL)
     let data = [];
     for (let ele of bookmarksData) {
-      // let row = []
-      // for (let something in ele) {
-      //   row.push(ele.something);
-      // }
       data.push(Object.values(ele));
     }
     return data;
   }
 
-  let buttons = document.getElementsByClassName("butt");
-  for (let i = 0; i < buttons.length; i++) {
+  let buttons = document.getElementsByClassName("butt"); // for deleting bookmarks
+  for (let i = 0; i < buttons.length; i++) { // for deleting bookmarks
     buttons[i].addEventListener("click", async (e) => {
-      let id = e.target.id;
+      let id = e.target.id; // getting id of button clicked
 
       const options = {
         method: "POST",
@@ -111,14 +105,14 @@ window.onload = async () => {
       let jso = await resp.json();
 
       if (jso.status === "success") {
-        alert("tag deleted");
+        alert("bookmark deleted");
         window.location.reload();
       }
     });
   }
 
-  let xEles = document.getElementsByClassName("x-ele");
-  for (let i = 0; i < xEles.length; i++) {
+  let xEles = document.getElementsByClassName("x-ele"); // for deleting tags
+  for (let i = 0; i < xEles.length; i++) { // for deleting tags
     xEles[i].addEventListener("click", async (e) => {
       let id = e.target.id;
       let name = e.target.className.split(" ")[1];
@@ -142,7 +136,7 @@ window.onload = async () => {
     });
   }
 
-  let addingTags = document.getElementsByClassName("buttToAddTags");
+  let addingTags = document.getElementsByClassName("buttToAddTags"); // adding tags
   for (let i = 0; i < addingTags.length; i++) {
     addingTags[i].addEventListener("click", async (e) => {
       let id = e.target.id;
