@@ -1,3 +1,5 @@
+let array = [];
+
 window.onload = async () => {
   let response = await fetch("/getTags");
   let tags = await response.json();
@@ -6,6 +8,8 @@ window.onload = async () => {
   for (let tag of tags) {
     document.querySelector(".tagsDisplay").append(createTag(tag));
   }
+
+  getBookmarks();
 };
 
 function createTag(tagName) {
@@ -20,11 +24,40 @@ function createTag(tagName) {
   return div;
 }
 
+async function getBookmarks() {
+  const response = await fetch("/getBookmarks");
+  let bookmarks = await response.json();
+
+  for (let bookmark of bookmarks) {
+    array.push(bookmark["link"]);
+  }
+}
+
 async function addBookmark() {
   let tags = document.querySelectorAll(".tags");
   let link = document.getElementById("link").value;
   let title = document.getElementById("title").value;
   let publisher = document.getElementById("publisher").value;
+
+  if (!link) {
+    alert("The link needs to be entered!");
+    return;
+  }
+
+  if (!title) {
+    alert("The title needs to be entered!");
+    return;
+  }
+
+  if (!publisher) {
+    alert("The publisher needs to be entered!");
+    return;
+  }
+
+  if (array.includes(link)) {
+    alert("No two links can be the same! Please renter another link!");
+    return;
+  }
 
   let tagsArray = [];
   tags.forEach((ele) => {
