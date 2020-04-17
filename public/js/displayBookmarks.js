@@ -32,7 +32,6 @@ window.onload = async () => {
         tr.appendChild(td);
         continue;
       } else if (j === 2) { // specifying that the title column needs to lead to url when clicked
-        console.log(link)
         let a = document.createElement("a");
         let text = document.createTextNode(tableRows[i][j]);
 
